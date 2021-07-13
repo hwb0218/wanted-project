@@ -5,7 +5,7 @@ import { FaChevronRight } from 'react-icons/fa';
 
 const tagList = ['#핀테크', '#설립3년이하', '#자율복장', '#연봉상위2~5%', '#퇴사율5%이하'];
 
-const SearchBox = ({ setIsClicked }) => {
+const SearchBox = ({ setClickedSearchBtn }) => {
     const elRef = useCallback(
         (node) => {
             if (node !== null) {
@@ -16,8 +16,8 @@ const SearchBox = ({ setIsClicked }) => {
     );
 
     const handleClick = useCallback(() => {
-        setIsClicked(false);
-    }, [setIsClicked]);
+        setClickedSearchBtn(false);
+    }, [setClickedSearchBtn]);
 
     useEffect(() => {
         window.addEventListener("click", handleClick);

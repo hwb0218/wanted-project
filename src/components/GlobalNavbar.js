@@ -4,13 +4,19 @@ import {FiSearch, FiBell, FiMenu} from 'react-icons/fi'
 import Dropdown from "./Dropdown";
 import NavbarMenu from "./NavbarMenu";
 import SearchBox from "./SearchBox";
+import MyWanted from "./MyWanted";
 
 const GlobalNavbar = () => {
     const [isHovering, setIsHovering] = useState(false);
-    const [isClicked, setIsClicked] = useState(false);
+    const [isClickedSearchBtn, setClickedSearchBtn] = useState(false);
+    const [isClickedProfile, setClickedProfiled] = useState(false);
 
     const handleSearchBtn = () => {
-        setIsClicked(true);
+        setClickedSearchBtn(true);
+    }
+
+    const handleProfileBtn = () => {
+        setClickedProfiled(!isClickedProfile);
     }
 
     return (
@@ -29,9 +35,10 @@ const GlobalNavbar = () => {
                             <FiBell style={{ fontSize: '18px', color: '#333' }} />
                             <Badge>N</Badge>
                         </IconList>
-                        <IconList className="profileBox">
+                        <IconList className="profileBox" onClick={handleProfileBtn}>
                             <Avatar src="/assets/cat.jpg"/>
                             <Badge>N</Badge>
+                            {isClickedProfile ? <MyWanted /> : null}
                         </IconList>
                         <IconList className="lastList"><button>기업 서비스</button></IconList>
                         <IconList className="dropdownMenu"><FiMenu style={{ fontSize: '18px', color: '#333' }} /></IconList>
@@ -39,7 +46,7 @@ const GlobalNavbar = () => {
                 </Aside>
             </Wrapper>
         </Navbar>
-            {isClicked ? <SearchBox setIsClicked={setIsClicked} /> : null}
+            {isClickedSearchBtn ? <SearchBox setClickedSearchBtn={setClickedSearchBtn} /> : null}
         </>
     );
 };
@@ -209,7 +216,7 @@ const Badge = styled.div`
   position: absolute;
   top: -2px;
   right: -2px;
-  padding: 2px 3px;
+  padding: 2px 3.5px;
   vertical-align: middle;
   border-radius: 40%;
   background-color: #258bf7;

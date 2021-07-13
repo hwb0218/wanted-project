@@ -77,7 +77,7 @@ const DropdownContainer = styled.div`
     height: auto;
     
     & .menu {
-      height: 70%;
+      height: 60%;
     }
   }
   
