@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
-import { BsSearch, BsBell } from "react-icons/bs";
+import styled from 'styled-components';
+import {FiSearch, FiBell, FiMenu} from 'react-icons/fi'
 import Dropdown from "./Dropdown";
 import NavbarMenu from "./NavbarMenu";
-
-
+import SearchBox from "./SearchBox";
 
 const GlobalNavbar = () => {
     const [isHovering, setIsHovering] = useState(false);
+    const [isClicked, setIsClicked] = useState(false);
+
+    const handleSearchBtn = () => {
+        setIsClicked(true);
+    }
 
     return (
+        <>
         <Navbar>
             <Wrapper>
                 <Title>wanted</Title>
@@ -19,9 +24,9 @@ const GlobalNavbar = () => {
                 <Dropdown isHovering={isHovering} setIsHovering={setIsHovering}/>
                 <Aside>
                     <ul>
-                        <IconList className="search"><BsSearch /></IconList>
+                        <IconList className="search" onClick={handleSearchBtn}><FiSearch style={{ fontSize: '18px', color: '#333' }} /></IconList>
                         <IconList className="alert">
-                            <BsBell />
+                            <FiBell style={{ fontSize: '18px', color: '#333' }} />
                             <Badge>N</Badge>
                         </IconList>
                         <IconList className="profileBox">
@@ -29,10 +34,13 @@ const GlobalNavbar = () => {
                             <Badge>N</Badge>
                         </IconList>
                         <IconList className="lastList"><button>기업 서비스</button></IconList>
+                        <IconList className="dropdownMenu"><FiMenu style={{ fontSize: '18px', color: '#333' }} /></IconList>
                     </ul>
                 </Aside>
             </Wrapper>
         </Navbar>
+            {isClicked ? <SearchBox setIsClicked={setIsClicked} /> : null}
+        </>
     );
 };
 
@@ -42,8 +50,8 @@ const Navbar = styled.nav`
   position: fixed;
   background: #fff;
   box-shadow: 0 1px 0 0 rgb(0 0 0 / 10%);
-  overflow: hidden;
   white-space: nowrap;
+  z-index: 100;
   
   @media screen and (max-width: 767px) {
     height: 57px;
@@ -61,7 +69,7 @@ const Wrapper = styled.div`
   margin: 0 auto;
   
   @media screen and (max-width: 767px) {
-    margin: 0;
+    width: 100%;
   }
 `;
 
@@ -85,13 +93,13 @@ const Menu = styled.ul`
     justify-content: space-evenly;
     align-items: center;
     flex: 1;
+    font-size: 13px;
   }
   
   @media screen and (max-width: 767px) {
     display: inline-block;
+    font-size: 14px;
   }
-  
-  
 `;
 
 const Aside = styled.aside`
@@ -113,6 +121,10 @@ const IconList = styled.li`
   &.alert {
     position: relative;
     margin-right: 8px;
+    
+    @media screen and (max-width: 767px) {
+      margin: 0;
+    }
   }
   
   &.profileBox {
@@ -132,6 +144,11 @@ const IconList = styled.li`
   &.lastList {
       padding: unset;
       margin-left: 20px;
+      
+      @media screen and (max-width: 767px) {
+        display: none;
+      }
+      
       &::before {
       display: inline-block;
       content: "";
@@ -139,7 +156,15 @@ const IconList = styled.li`
       height: 10px;
       background-color: #e1e2e3;
       margin-right: 10px;
-      
+    }
+  }
+  
+  &.dropdownMenu {
+    display: none;
+    margin-right: 10px;
+    
+    @media screen and (max-width: 767px) {
+      display: inline-block;
     }
   }
   
@@ -160,6 +185,10 @@ const IconList = styled.li`
   & svg {
     height: 100%;
     vertical-align: middle;
+    
+    @media screen and (max-width: 767px) {
+      height: 85%;
+    }
   }
 `;
 

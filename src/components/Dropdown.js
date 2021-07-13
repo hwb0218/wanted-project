@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components';
 import { FaChevronRight } from 'react-icons/fa';
-import { menuList } from './dropdownMenu';
+import { menuList, otherThemeList } from './dropdownMenu';
 
 const Dropdown = ({ isHovering, setIsHovering }) => {
     const dropdownEl = useRef();
@@ -27,8 +27,8 @@ const Dropdown = ({ isHovering, setIsHovering }) => {
 
     return (
         <>
-            <DropdownContainer className={isHovering && 'show'} hover={isHovering}>
-                <DropdownOverlay className='menu' ref={dropdownEl} onClick={test}>
+            <DropdownContainer className={isHovering && 'show'}>
+                <DropdownContent className='menu' ref={dropdownEl} onClick={test}>
                     <DropdownMenuWrapper>
                     {menuList.map((list) => (
                         <DropdownUl key={list.theme}>
@@ -41,10 +41,19 @@ const Dropdown = ({ isHovering, setIsHovering }) => {
                                         {el}
                                     </DropdownLi>
                                 )}
+                            <DropdownLi className='moreView'>더보기<Arrow /></DropdownLi>
                         </DropdownUl>
                     ))}
+                    <DropdownUl>
+                        {otherThemeList.map((list) => (
+                            <DropdownTheme key={list}>
+                                {list}
+                                <Arrow />
+                            </DropdownTheme>
+                        ))}
+                    </DropdownUl>
                     </DropdownMenuWrapper>
-                </DropdownOverlay>
+                </DropdownContent>
             </DropdownContainer>
         </>
     );
@@ -70,11 +79,14 @@ const DropdownContainer = styled.div`
     & .menu {
       height: 70%;
     }
-    
+  }
+  
+  @media screen and (max-width: 767px) {
+    display: none;
   }
 `;
 
-const DropdownOverlay = styled.div`
+const DropdownContent = styled.div`
   height: 0;
   max-height: 625px;
   background: #fff;
@@ -89,7 +101,7 @@ const DropdownMenuWrapper = styled.div`
 
 const DropdownUl = styled.ul`
   float: left;
-  width: 16.666%;
+  width: 16.6666%;
   padding: 40px 20px 0 0;
 `;
 
@@ -97,6 +109,7 @@ const DropdownTheme = styled.div`
   position: relative;
   font-size: 17px;
   color: #333;
+  font-weight: 600;
   line-height: 20px;
   vertical-align: top;
   padding-right: 20px;
@@ -110,12 +123,16 @@ const DropdownLi = styled.li`
   white-space: nowrap;
   overflow: hidden;
   padding: 5px 20px 5px 0;
+  
+  &.moreView {
+    position: relative;
+  }
 `;
 
 const Arrow = styled(FaChevronRight)`
   position: absolute;
-  top: 4px;
-  right: 3px;
+  top: 5.5px;
+  right: 0;
   font-size: 11px;
   color: #999;
 `;

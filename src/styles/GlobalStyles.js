@@ -10,6 +10,7 @@ const GlobalStyles = createGlobalStyle`
       
     }
   body {
+      height: 200vh;
       font-family: 'Poppins', sans-serif;
   }
 `

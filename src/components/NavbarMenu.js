@@ -26,10 +26,11 @@ const NavbarMenu = ({ setIsHovering }) => {
         <>
             {newMenuList.map(({id, text}) => (
                 <MenuList
-                className={active === id && 'selectedNav'}
-                onClick={() => handleClick(id)}
-                onMouseEnter={id === 1 ? handleMouseEnter : null}
-                isMoreVisible={id <= 2}
+                    key={id}
+                    className={active === id && 'selectedNav'}
+                    onClick={() => handleClick(id)}
+                    onMouseEnter={id === 1 ? handleMouseEnter : null}
+                    isMoreVisible={id <= 2}
                 >
                 {text}
                 </MenuList>
@@ -43,18 +44,18 @@ const MenuList = styled.li`
   padding: 15px;
   line-height: 20px;
   color: #333;
-  cursor: pointer;
-  
-  &:hover {
-    box-shadow: inset 0 -2px #ddd;
-  }
-  
+  cursor: pointer;  
+}
   &.selectedNav {
     box-shadow: inset 0 -2px #258bf7;
-    &:hover {
-      box-shadow: inset 0 -2px #ddd;
+  }
+  
+  &:hover {
+    @media screen and (min-width: 911px) {
+      box-shadow: inset 0 -2px #eee; 
     }
   }
+  
   
   &:first-child {
     display: none;
@@ -73,9 +74,6 @@ const MenuList = styled.li`
       padding: 14px 13px 19px 20px;
     }
   }
-  
-  
-  
 `;
 
 export default NavbarMenu;
