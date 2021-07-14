@@ -1,34 +1,32 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { FaChevronRight } from 'react-icons/fa';
 import { menuList, otherThemeList } from './dropdownMenu';
 
-const Dropdown = ({ isHovering, setIsHovering }) => {
-    const dropdownEl = useRef();
-
-    // const handleClickOutside = useCallback(({ target }) => {
-    //     if (isHovering && !dropdownEl.current.contains(target)) setIsHovering(false);
-    // }, [isHovering, setIsHovering]);
-
-    const test = (e) => {
-        console.log(e.target.className);
-    }
+const NavbarDropdown = ({ isHovering, setIsHovering }) => {
+    const handleHoverOutside = useCallback(({ target }) => {
+        const { classList } = target;
+        const includesClassListInShow = Array.from(classList).includes('show');
+        if (isHovering && includesClassListInShow) setIsHovering(false);
+    }, [isHovering, setIsHovering]);
 
     const handleClick = useCallback(() => {
-        setIsHovering(false);
-    }, [setIsHovering]);
+        if (isHovering) setIsHovering(false);
+    }, [setIsHovering, isHovering]);
 
     useEffect(() => {
         window.addEventListener("click", handleClick);
+        window.addEventListener("mouseover", handleHoverOutside);
         return () => {
             window.removeEventListener("click", handleClick);
+            window.removeEventListener("mouseover", handleHoverOutside);
         }
-    }, [handleClick]);
+    }, [handleClick, handleHoverOutside]);
 
     return (
         <>
             <DropdownContainer className={isHovering && 'show'}>
-                <DropdownContent className='menu' ref={dropdownEl} onClick={test}>
+                <DropdownContent className='menu'>
                     <DropdownMenuWrapper>
                     {menuList.map((list) => (
                         <DropdownUl key={list.theme}>
@@ -114,6 +112,9 @@ const DropdownTheme = styled.div`
   vertical-align: top;
   padding-right: 20px;
   padding-bottom: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
 `
 
 const DropdownLi = styled.li`
@@ -123,6 +124,7 @@ const DropdownLi = styled.li`
   white-space: nowrap;
   overflow: hidden;
   padding: 5px 20px 5px 0;
+  cursor: pointer;
   
   &.moreView {
     position: relative;
@@ -137,4 +139,4 @@ const Arrow = styled(FaChevronRight)`
   color: #999;
 `;
 
-export default Dropdown;
+export default NavbarDropdown;

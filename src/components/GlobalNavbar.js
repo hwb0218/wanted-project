@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import {FiSearch, FiBell, FiMenu} from 'react-icons/fi'
-import Dropdown from "./Dropdown";
+import NavbarDropdown from "./NavbarDropdown";
 import NavbarMenu from "./NavbarMenu";
 import SearchBox from "./SearchBox";
+import Notice from "./Notice";
 import MyWanted from "./MyWanted";
 
 const GlobalNavbar = () => {
     const [isHovering, setIsHovering] = useState(false);
     const [isClickedSearchBtn, setClickedSearchBtn] = useState(false);
-    const [isClickedProfile, setClickedProfiled] = useState(false);
+    const [isClickedNotice, setClickedNotice] = useState(false);
+    const [isClickedProfile, setClickedProfile] = useState(false);
 
     const handleSearchBtn = () => {
         setClickedSearchBtn(true);
+        setClickedProfile(false);
+    }
+
+    const handleNoticeBtn = () => {
+        setClickedNotice(true);
     }
 
     const handleProfileBtn = () => {
-        setClickedProfiled(!isClickedProfile);
+        setClickedProfile(!isClickedProfile);
     }
 
     return (
@@ -25,15 +32,18 @@ const GlobalNavbar = () => {
             <Wrapper>
                 <Title>wanted</Title>
                 <Menu>
-                    <NavbarMenu setIsHovering={setIsHovering}/>
+                    <NavbarMenu setIsHovering={setIsHovering} setClickedProfile={setClickedProfile}/>
                 </Menu>
-                <Dropdown isHovering={isHovering} setIsHovering={setIsHovering}/>
+                <NavbarDropdown isHovering={isHovering} setIsHovering={setIsHovering}/>
                 <Aside>
                     <ul>
-                        <IconList className="search" onClick={handleSearchBtn}><FiSearch style={{ fontSize: '18px', color: '#333' }} /></IconList>
+                        <IconList className="search" onClick={handleSearchBtn}>
+                            <FiSearch style={{ fontSize: '18px', color: '#333' }} />
+                        </IconList>
                         <IconList className="alert">
                             <FiBell style={{ fontSize: '18px', color: '#333' }} />
                             <Badge>N</Badge>
+                            <Notice />
                         </IconList>
                         <IconList className="profileBox" onClick={handleProfileBtn}>
                             <Avatar src="/assets/cat.jpg"/>
@@ -41,8 +51,16 @@ const GlobalNavbar = () => {
                             {isClickedProfile ? <MyWanted /> : null}
                         </IconList>
                         <IconList className="lastList"><button>기업 서비스</button></IconList>
-                        <IconList className="dropdownMenu"><FiMenu style={{ fontSize: '18px', color: '#333' }} /></IconList>
+                        <IconList className="dropdownMenu">
+                            <FiMenu
+                                style={{ fontSize: '18px', color: '#333' } }
+                                onClick={handleProfileBtn}
+                            />
+                        </IconList>
                     </ul>
+                    <MyWantedMobile>
+                        {isClickedProfile ? <MyWanted handleProfileBtn={handleProfileBtn}/> : null}
+                    </MyWantedMobile>
                 </Aside>
             </Wrapper>
         </Navbar>
@@ -93,7 +111,7 @@ const Title = styled.div`
 
 const Menu = styled.ul`
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 600;
   
   @media screen and (max-width: 911px) {
     display: flex;
@@ -222,6 +240,12 @@ const Badge = styled.div`
   background-color: #258bf7;
   color: #fff;
   font-size: xx-small;
+`;
+
+const MyWantedMobile = styled.div`
+  @media screen and (min-width: 767px) {
+    display: none;
+  }
 `;
 
 export default GlobalNavbar;
