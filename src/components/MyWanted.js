@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { Diamond } from "../styles/GlobalStyles";
-import { FaTimes } from 'react-icons/fa';
+import { BsX } from 'react-icons/bs';
 import { myWantedList, myWantedListMobile } from "./dropdownMenu";
+
+const circles = ['circle1', 'circle2', 'circle3'];
 
 const MyWanted = ({ handleProfileBtn }) => {
     const [innerWidth, setInnerWidth] = useState(window.innerWidth);
@@ -36,11 +38,15 @@ const MyWanted = ({ handleProfileBtn }) => {
             <MyWantedWrapper>
                 <WantedLogo>
                     <i>
-                        <span></span>
+                        {circles.map((circle, i) => (
+                        <div className={circle}>
+                            {i > 0 && <div className={'innerCircle' + i} />}
+                        </div>
+                    ))}
                     </i>
-                    <FaTimes />
+                    <BsX onClick={handleProfileBtn} style={{ cursor: 'pointer'}} />
                 </WantedLogo>
-                <MyWantedList>
+                <ul>
                     {innerWidth > 767
                         ? myWantedList.map((item, i) => (
                             <MyWantedListItem key={item} index={i}>
@@ -50,9 +56,10 @@ const MyWanted = ({ handleProfileBtn }) => {
                         : myWantedListMobile.map((item, i) => (
                             <MyWantedListItem key={item} index={i}>
                                 <div>{item}</div>
+                                {item === 'MY 원티드' && <Avatar src="/assets/cat.jpg" />}
                             </MyWantedListItem>
                         ))}
-                </MyWantedList>
+                </ul>
             </MyWantedWrapper>
             <Diamond />
         </MyWantedContainer>
@@ -89,12 +96,9 @@ const MyWantedWrapper = styled.div`
     box-shadow: none;
     border-radius: 0;
     padding: 20px;
+    overflow: auto;
   }
 `
-
-const MyWantedList = styled.ul`
-
-`;
 
 const desktop = css`
   position: relative;
@@ -147,6 +151,7 @@ const desktop = css`
 
 const mobile = css`
   font-size: 20px;
+  position: ${({ index }) => index === 0 && 'relative'};
   
   & > div {
     padding: 15px 0;
@@ -172,25 +177,71 @@ const MyWantedListItem = styled.li`
 const WantedLogo = styled.div`
   display: none;
   height: 50px;
+  position: relative;
+  margin-bottom: 45px;
   
   @media screen and (max-width: 767px) {
     display: block;
   }
   
+  & > svg {
+    font-size: 28px;
+    color: #999;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+  }
+  
   & > i {
     display: inline-block;
     
-    & span {
-      &:before {
-        content: "";
-        display: block;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background: rgba(36, 224, 166, .8);
-      }
+    & div {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      top: 50%;
+      transform: translate(0, -50%);
+    }
+    
+    & .circle1 {
+      background: rgb(36, 224, 166);
+    }
+    
+    & .circle2 {
+      background: rgb(67, 139, 255);
+      left: 18px;
+      overflow: hidden; 
+    }
+    
+    & .circle3 {
+      background: rgb(44, 91, 242);
+      left: 36px;
+      overflow: hidden;
+    }
+    
+    & .innerCircle1 {
+      background: rgb(58, 104, 249);
+      right: 18px;
+    }
+    
+    & .innerCircle2 {
+      background: rgb(0, 73, 219);
+      right: 18px;
     }
   }
 `;
+
+const Avatar = styled.img`
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translate(0, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+`
 
 export default MyWanted;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import {FiSearch, FiBell, FiMenu} from 'react-icons/fi'
 import NavbarDropdown from "./NavbarDropdown";
@@ -8,6 +8,7 @@ import Notice from "./Notice";
 import MyWanted from "./MyWanted";
 
 const GlobalNavbar = () => {
+    const ref = useRef();
     const [isHovering, setIsHovering] = useState(false);
     const [isClickedSearchBtn, setClickedSearchBtn] = useState(false);
     const [isClickedNotice, setClickedNotice] = useState(false);
@@ -15,15 +16,18 @@ const GlobalNavbar = () => {
 
     const handleSearchBtn = () => {
         setClickedSearchBtn(true);
+        setClickedNotice(false);
         setClickedProfile(false);
     }
 
     const handleNoticeBtn = () => {
-        setClickedNotice(true);
+        setClickedNotice(!isClickedNotice);
+        setClickedProfile(false);
     }
 
     const handleProfileBtn = () => {
         setClickedProfile(!isClickedProfile);
+        setClickedNotice(false);
     }
 
     return (
@@ -40,13 +44,21 @@ const GlobalNavbar = () => {
                         <IconList className="search" onClick={handleSearchBtn}>
                             <FiSearch style={{ fontSize: '18px', color: '#333' }} />
                         </IconList>
-                        <IconList className="alert">
-                            <FiBell style={{ fontSize: '18px', color: '#333' }} />
+                        <IconList
+                            className="alert"
+                            onClick={handleNoticeBtn}
+                            isClickedNotice={isClickedNotice}
+                        >
+                            <FiBell />
                             <Badge>N</Badge>
-                            <Notice />
+                            {isClickedNotice ? <Notice /> : null}
                         </IconList>
-                        <IconList className="profileBox" onClick={handleProfileBtn}>
-                            <Avatar src="/assets/cat.jpg"/>
+                        <IconList
+                            className="profileBox"
+                            onClick={handleProfileBtn}
+                            isClickedProfile={isClickedProfile}
+                        >
+                            <Avatar src="/assets/cat.jpg" />
                             <Badge>N</Badge>
                             {isClickedProfile ? <MyWanted /> : null}
                         </IconList>
@@ -64,7 +76,11 @@ const GlobalNavbar = () => {
                 </Aside>
             </Wrapper>
         </Navbar>
-            {isClickedSearchBtn ? <SearchBox setClickedSearchBtn={setClickedSearchBtn} /> : null}
+            {isClickedSearchBtn ? <SearchBox
+                isClickedSearchBtn={isClickedSearchBtn}
+                setClickedSearchBtn={setClickedSearchBtn}
+                ref={ref}
+            /> : null}
         </>
     );
 };
@@ -145,7 +161,20 @@ const IconList = styled.li`
   
   &.alert {
     position: relative;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
     margin-right: 8px;
+    background: ${({ isClickedNotice }) => isClickedNotice ? '#36f' : 'transparent'};
+    
+    & > svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 18px;
+      color: ${({ isClickedNotice }) => isClickedNotice ? '#fff' : '#333'};
+    }
     
     @media screen and (max-width: 767px) {
       margin: 0;
@@ -159,7 +188,7 @@ const IconList = styled.li`
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    border: 1px solid #e1e2e3;
+    border: ${({ isClickedProfile }) => isClickedProfile ? '1px solid #36f' : '1px solid #e1e2e3'};
     
     @media screen and (max-width: 767px) {
       display: none;
@@ -168,7 +197,7 @@ const IconList = styled.li`
   
   &.lastList {
       padding: unset;
-      margin-left: 20px;
+      margin-left: 23px;
       
       @media screen and (max-width: 767px) {
         display: none;
@@ -222,7 +251,6 @@ const Avatar = styled.img`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  margin-right: 11px;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -233,13 +261,17 @@ const Badge = styled.div`
   display: inline-block;
   position: absolute;
   top: -2px;
-  right: -2px;
+  right: -3px;
   padding: 2px 3.5px;
   vertical-align: middle;
   border-radius: 40%;
   background-color: #258bf7;
   color: #fff;
   font-size: xx-small;
+  
+  &::selection {
+    outline: none;
+  }
 `;
 
 const MyWantedMobile = styled.div`

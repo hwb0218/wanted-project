@@ -1,22 +1,23 @@
-import React, { useEffect, useCallback } from 'react';
+import React, {useEffect, useCallback, forwardRef} from 'react';
 import styled from 'styled-components';
-import { FaSearch } from 'react-icons/fa';
-import { FaChevronRight } from 'react-icons/fa';
+import {FaSearch} from 'react-icons/fa';
+import {FaChevronRight} from 'react-icons/fa';
 
 const tagList = ['#핀테크', '#설립3년이하', '#자율복장', '#연봉상위2~5%', '#퇴사율5%이하'];
 
-const SearchBox = ({ setClickedSearchBtn }) => {
+const SearchBox = ({isClickedSearchBtn, setClickedSearchBtn}) => {
+
     const elRef = useCallback(
         (node) => {
             if (node !== null) {
                 node.focus();
             }
+            return node;
         },
         []
     );
-
-    const handleClick = useCallback(() => {
-        setClickedSearchBtn(false);
+    const handleClick = useCallback(({target}) => {
+        if (isClickedSearchBtn && target.localName !== "input") setClickedSearchBtn(false);
     }, [setClickedSearchBtn]);
 
     useEffect(() => {
@@ -26,18 +27,19 @@ const SearchBox = ({ setClickedSearchBtn }) => {
         }
     }, [handleClick]);
 
-
     return (
         <SearchBoxContainer>
             <SearchBoxOverlay>
-                <SearchBoxContent>
-                    <Icon />
-                    <Input type="text" placeholder="#태그, 회사, 포지션 검색" ref={elRef}/>
+                <SearchBoxWrapper>
+                    <SearchBoxContent>
+                        <Icon/>
+                        <Input type="text" placeholder="#태그, 회사, 포지션 검색" ref={elRef}/>
+                    </SearchBoxContent>
                     <TagContainer>
                         <span>추천태그로 검색해보세요</span>
                         <span className='tagSearch'>
                             기업태그 홈 이동하기
-                            <FaChevronRight />
+                            <FaChevronRight/>
                         </span>
                         <TagList>
                             {tagList.map((item) => (
@@ -47,7 +49,7 @@ const SearchBox = ({ setClickedSearchBtn }) => {
                             ))}
                         </TagList>
                     </TagContainer>
-                </SearchBoxContent>
+                </SearchBoxWrapper>
             </SearchBoxOverlay>
         </SearchBoxContainer>
     );
@@ -65,24 +67,40 @@ const SearchBoxContainer = styled.div`
 
 const SearchBoxOverlay = styled.div`
   background: #fff;
+  
+  @media screen and (max-width: 767px) {
+    height: 100%;
+  }
 `;
 
-const SearchBoxContent = styled.div`
+const SearchBoxWrapper = styled.div`
   width: 100%;
   max-width: 1060px;
   margin: 0 auto;
   padding-top: 30px;
   position: relative;
   background-color: #fff;
+  
+  @media (min-width: 767px) and (max-width: 1199px) {
+    width: 90%;
+  }
+  @media screen and (max-width: 767px) {
+    padding: 20px;
+  }
+`;
+
+const SearchBoxContent = styled.div`
+  position: relative;
 `;
 
 const Icon = styled(FaSearch)`
   position: absolute;
-  top: 48px;
+  top: 50%;
   left: 20px;
   margin-right: 16px; 
   margin-left: 6px;
-  color: #444;
+  color: #666;
+  transform: translate(0, -50%);
 `;
 
 const Input = styled.input`
@@ -107,6 +125,10 @@ const Input = styled.input`
 const TagContainer = styled.div`
   padding-top: 50px;
   
+  @media screen and (max-width: 767px) {
+    padding-top: 40px;
+  }
+  
   & span {
     font-size: 14px;
     font-weight: 600;
@@ -128,12 +150,14 @@ const TagContainer = styled.div`
 `
 
 const TagList = styled.ul`
-  padding-top: 20px;
+  padding-top: 15px;
   padding-bottom: 50px;
+
 `;
 
 const TagListItem = styled.li`
   display: inline-block;
+  margin: 5px 10px 0 0;
   height: 50px;
   padding: 0 26px;
   line-height: 50px;
@@ -141,6 +165,19 @@ const TagListItem = styled.li`
   color: #333;
   border-radius: 25px;
   cursor: pointer;
+   
+    
+  @media screen and (max-width: 767px) {
+    margin: 10px 4px 0 0;
+    font-size: 13px;
+    padding: 0 12px;
+    height: 34px;
+    line-height: 34px;
+    
+    & + & {
+    margin-left: 0;
+    }
+  }
   
   &:first-child {
     background: #f0f8f8;
@@ -161,10 +198,6 @@ const TagListItem = styled.li`
   &:last-child {
     background: #effbf3;
   } 
-    
-  & + & {
-    margin-left: 10px;
-  }
 `;
 
 export default SearchBox;
