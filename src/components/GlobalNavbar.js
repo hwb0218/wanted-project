@@ -6,6 +6,7 @@ import NavbarMenu from "./NavbarMenu";
 import SearchBox from "./SearchBox";
 import Notice from "./Notice";
 import MyWanted from "./MyWanted";
+import cat from "../images/cat.jpg";
 
 const GlobalNavbar = () => {
     const ref = useRef();
@@ -58,7 +59,7 @@ const GlobalNavbar = () => {
                             onClick={handleProfileBtn}
                             isClickedProfile={isClickedProfile}
                         >
-                            <Avatar src="/assets/cat.jpg" />
+                            <Avatar src={cat} />
                             <Badge>N</Badge>
                             {isClickedProfile ? <MyWanted /> : null}
                         </IconList>

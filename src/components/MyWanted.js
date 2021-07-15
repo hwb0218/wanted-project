@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import { Diamond } from "../styles/GlobalStyles";
 import { BsX } from 'react-icons/bs';
 import { myWantedList, myWantedListMobile } from "./dropdownMenu";
+import cat from "../images/cat.jpg";
 
 const circles = ['circle1', 'circle2', 'circle3'];
 
@@ -56,7 +57,7 @@ const MyWanted = ({ handleProfileBtn }) => {
                         : myWantedListMobile.map((item, i) => (
                             <MyWantedListItem key={item} index={i}>
                                 <div>{item}</div>
-                                {item === 'MY 원티드' && <Avatar src="/assets/cat.jpg" />}
+                                {item === 'MY 원티드' && <Avatar src={cat} />}
                             </MyWantedListItem>
                         ))}
                 </ul>
