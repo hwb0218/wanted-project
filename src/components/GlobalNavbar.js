@@ -37,7 +37,7 @@ const GlobalNavbar = () => {
             <Wrapper>
                 <Title>wanted</Title>
                 <Menu>
-                    <NavbarMenu setIsHovering={setIsHovering} setClickedProfile={setClickedProfile}/>
+                    <NavbarMenu setIsHovering={setIsHovering} setClickedProfile={setClickedProfile} setClickedNotice={setClickedNotice}/>
                 </Menu>
                 <NavbarDropdown isHovering={isHovering} setIsHovering={setIsHovering}/>
                 <Aside>

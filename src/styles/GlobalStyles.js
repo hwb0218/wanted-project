@@ -1,5 +1,5 @@
 import reset from 'styled-reset';
-import styled, {createGlobalStyle} from "styled-components";
+import styled, { createGlobalStyle, css } from "styled-components";
 
 
 export const GlobalStyles = createGlobalStyle`
@@ -25,6 +25,10 @@ export const Diamond = styled.div`
   margin-bottom: -1px;
   transform: translateX(-47px);
   
+  ${({ notice }) => notice && css`
+    transform: translateX(0);
+  `};
+   
   &:after {
     content: "";
     margin-top: 4px;

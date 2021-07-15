@@ -11,7 +11,7 @@ const newMenuList = menuList.map((list) => {
     return obj
 })
 
-const NavbarMenu = ({ setIsHovering, setClickedProfile }) => {
+const NavbarMenu = ({ setIsHovering, setClickedProfile, setClickedNotice }) => {
     const [active, setActive] = useState(null);
 
     const handleClick = (id) => {
@@ -21,6 +21,7 @@ const NavbarMenu = ({ setIsHovering, setClickedProfile }) => {
     const handleMouseEnter = () => {
         setIsHovering(true);
         setClickedProfile(false);
+        setClickedNotice(false);
     };
 
     return (
