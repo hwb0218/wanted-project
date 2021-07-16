@@ -1,9 +1,9 @@
 import React, { useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import { FaChevronRight } from 'react-icons/fa';
-import { menuList, otherThemeList } from './dropdownMenu';
+import { menuList, otherThemeList } from '../dropdownMenu';
 
-const NavbarDropdown = ({ isHovering, setIsHovering }) => {
+const NavbarMenuDropdown = ({ isHovering, setIsHovering }) => {
     const handleHoverOutside = useCallback(({ target }) => {
         const { classList } = target;
         const includesClassListInShow = Array.from(classList).includes('show');
@@ -139,4 +139,4 @@ const Arrow = styled(FaChevronRight)`
   color: #999;
 `;
 
-export default NavbarDropdown;
+export default NavbarMenuDropdown;

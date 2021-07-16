@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback, forwardRef} from 'react';
+import React, {useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import {FaSearch} from 'react-icons/fa';
 import {FaChevronRight} from 'react-icons/fa';
@@ -18,7 +18,7 @@ const SearchBox = ({isClickedSearchBtn, setClickedSearchBtn}) => {
     );
     const handleClick = useCallback(({target}) => {
         if (isClickedSearchBtn && target.localName !== "input") setClickedSearchBtn(false);
-    }, [setClickedSearchBtn]);
+    }, [isClickedSearchBtn, setClickedSearchBtn]);
 
     useEffect(() => {
         window.addEventListener("click", handleClick);

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import {FiSearch, FiBell, FiMenu} from 'react-icons/fi'
-import NavbarDropdown from "./NavbarDropdown";
+import NavbarMenuDropdown from "./NavbarMenuDropdown";
 import NavbarMenu from "./NavbarMenu";
 import SearchBox from "./SearchBox";
 import Notice from "./Notice";
@@ -9,7 +9,6 @@ import MyWanted from "./MyWanted";
 import cat from "../images/cat.jpg";
 
 const GlobalNavbar = () => {
-    const ref = useRef();
     const [isHovering, setIsHovering] = useState(false);
     const [isClickedSearchBtn, setClickedSearchBtn] = useState(false);
     const [isClickedNotice, setClickedNotice] = useState(false);
@@ -39,27 +38,28 @@ const GlobalNavbar = () => {
                 <Menu>
                     <NavbarMenu setIsHovering={setIsHovering} setClickedProfile={setClickedProfile} setClickedNotice={setClickedNotice}/>
                 </Menu>
-                <NavbarDropdown isHovering={isHovering} setIsHovering={setIsHovering}/>
+                <NavbarMenuDropdown isHovering={isHovering} setIsHovering={setIsHovering}/>
                 <Aside>
                     <ul>
-                        <IconList className="search" onClick={handleSearchBtn}>
-                            <FiSearch style={{ fontSize: '18px', color: '#333' }} />
+                        <IconList className="search" >
+                            <FiSearch style={{ fontSize: '18px', color: '#333' }} onClick={handleSearchBtn} />
                         </IconList>
                         <IconList
                             className="alert"
-                            onClick={handleNoticeBtn}
                             isClickedNotice={isClickedNotice}
                         >
-                            <FiBell />
+                            <FiBell onClick={handleNoticeBtn}/>
                             <Badge>N</Badge>
-                            {isClickedNotice ? <Notice /> : null}
+                            {isClickedNotice ? <Notice
+                                isClickedNotice={isClickedNotice}
+                                setClickedNotice={setClickedNotice}
+                            /> : null}
                         </IconList>
                         <IconList
                             className="profileBox"
-                            onClick={handleProfileBtn}
                             isClickedProfile={isClickedProfile}
                         >
-                            <Avatar src={cat} />
+                            <Avatar src={cat} onClick={handleProfileBtn}/>
                             <Badge>N</Badge>
                             {isClickedProfile ? <MyWanted /> : null}
                         </IconList>
@@ -80,7 +80,6 @@ const GlobalNavbar = () => {
             {isClickedSearchBtn ? <SearchBox
                 isClickedSearchBtn={isClickedSearchBtn}
                 setClickedSearchBtn={setClickedSearchBtn}
-                ref={ref}
             /> : null}
         </>
     );

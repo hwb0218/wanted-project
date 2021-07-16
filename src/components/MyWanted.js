@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { Diamond } from "../styles/GlobalStyles";
 import { BsX } from 'react-icons/bs';
-import { myWantedList, myWantedListMobile } from "./dropdownMenu";
+import { myWantedList, myWantedListMobile } from "../dropdownMenu";
 import cat from "../images/cat.jpg";
 
 const circles = ['circle1', 'circle2', 'circle3'];
@@ -40,7 +40,7 @@ const MyWanted = ({ handleProfileBtn }) => {
                 <WantedLogo>
                     <i>
                         {circles.map((circle, i) => (
-                        <div className={circle}>
+                        <div className={circle} key={circle}>
                             {i > 0 && <div className={'innerCircle' + i} />}
                         </div>
                     ))}
