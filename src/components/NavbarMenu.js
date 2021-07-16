@@ -24,6 +24,10 @@ const NavbarMenu = ({ setIsHovering, setClickedProfile, setClickedNotice }) => {
         setClickedNotice(false);
     };
 
+    const otherMenuEnter = () => {
+        setIsHovering(false);
+    }
+
     return (
         <>
             {newMenuList.map(({id, text}) => (
@@ -31,7 +35,7 @@ const NavbarMenu = ({ setIsHovering, setClickedProfile, setClickedNotice }) => {
                     key={id}
                     className={active === id && 'selectedNav'}
                     onClick={() => handleClick(id)}
-                    onMouseEnter={id === 1 ? handleMouseEnter : null}
+                    onMouseEnter={id === 1 ? handleMouseEnter : otherMenuEnter}
                     isMoreVisible={id <= 2}
                 >
                 {text}
